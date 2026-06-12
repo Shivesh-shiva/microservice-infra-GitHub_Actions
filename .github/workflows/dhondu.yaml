@@ -1,6 +1,7 @@
 name: "Infra Pipeline Kuch Bhi"
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
 
 jobs:
   terraform-job:
