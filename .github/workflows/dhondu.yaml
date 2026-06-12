@@ -1,0 +1,6 @@
+name: "Infra Pipeline Kuch Bhi"
+on: workflow_dispatch
+
+jobs:
+  terraform-job:
+    runs-on: dhondu-maharaaj
