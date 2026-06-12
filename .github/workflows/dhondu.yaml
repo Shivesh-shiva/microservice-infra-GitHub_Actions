@@ -9,4 +9,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.3
         
-  
+      - name: Install Terraform
+        uses: little-core-labs/install-terraform@v2.0.0
+        with:
+          version: 1.15.0
+          
