@@ -1,10 +1,12 @@
 name: "Infra Pipeline Kuch Bhi"
 
-on:
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
   terraform-job:
     runs-on: dhondu-maharaaj
-
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+        
   
