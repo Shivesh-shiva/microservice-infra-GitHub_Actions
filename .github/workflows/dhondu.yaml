@@ -41,4 +41,7 @@ jobs:
         run: terraform plan -no-color -input=false
         continue-on-error: true
         working-directory: environments/dev
+
+      - uses: trstringer/manual-approval@v1
+        timeout-minutes: 60
           
