@@ -42,5 +42,24 @@ jobs:
         continue-on-error: true
         working-directory: environments/dev
 
+  terraform-init-apply:
+    needs: terraform-init-plan
+    environment: dev
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+      
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: "001d55f2-b456-4af2-b966-97580811f90e"
+          tenant-id: "07b6dcc9-18d6-45a6-b3d3-7183c906e2ba"
+          subscription-id: "b107b989-85d9-4402-94e8-40ae932b8893" 
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -input=false
+        working-directory: environments/dev
  
           
