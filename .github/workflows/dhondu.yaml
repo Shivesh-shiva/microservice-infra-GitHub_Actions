@@ -13,4 +13,11 @@ jobs:
         uses: little-core-labs/install-terraform@v2.0.0
         with:
           version: 1.15.0
-          
+      
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: 001d55f2-b456-4af2-b966-97580811f90e
+          tenant-id: 07b6dcc9-18d6-45a6-b3d3-7183c906e2ba
+          subscription-id: b107b989-85d9-4402-94e8-40ae932b8893cd ac    
+    
