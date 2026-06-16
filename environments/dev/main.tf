@@ -1,3 +1,11 @@
+locals {
+  common_tags = {
+    "ManagedBy"   = "Terraform"
+    "Owner"       = "TodoAppTeam"
+    "Environment" = "dev"
+  }
+}
+
 module "resource_groups" {
   source          = "../../modules/resource_group"
   resource_groups = var.infra_config.resource_groups
@@ -27,4 +35,14 @@ module "aks" {
       tags                = v.tags
     }
   }
+}
+
+
+module "pip" {
+  source   = "../../modules/azurerm_public_ip"
+  pip_name = "pip-dev-todoapp"
+  rg_name  = "rg-dev-todoapp-01"
+  location = "centralindia"
+  sku      = "Basic"
+  tags     = local.common_tags
 }
