@@ -1,0 +1,77 @@
+name: "Dev Terraform Workflow"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-init-plan:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+      
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: "ddeaeb75-a7e2-4884-a107-925056ec540e"
+          tenant-id: "07b6dcc9-18d6-45a6-b3d3-7183c906e2ba"
+          subscription-id: "b107b989-85d9-4402-94e8-40ae932b8893"  
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+        working-directory: environments/dev
+      
+      - name: Terraform Init
+        id: init
+        run: terraform init -input=false
+        working-directory: environments/dev
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        working-directory: environments/dev
+      
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+        working-directory: environments/dev
+
+  terraform-init-apply:
+    needs: terraform-init-plan
+    if: ${{ github.ref == 'refs/heads/main' }}
+    environment: dev
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+      
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: "ddeaeb75-a7e2-4884-a107-925056ec540e"
+          tenant-id: "07b6dcc9-18d6-45a6-b3d3-7183c906e2ba"
+          subscription-id: "b107b989-85d9-4402-94e8-40ae932b8893" 
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -input=false
+        working-directory: environments/dev
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply --auto-approve
+        working-directory: environments/dev
+          

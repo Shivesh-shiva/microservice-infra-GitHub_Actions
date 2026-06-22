@@ -1,4 +1,4 @@
-name: "Infra Pipeline Kuch Bhi"
+name: "Prod Terraform Workflow"
 
 on:
   pull_request:
@@ -52,7 +52,7 @@ jobs:
   terraform-init-apply:
     needs: terraform-init-plan
     if: ${{ github.ref == 'refs/heads/main' }}
-    environment: dev
+    environment: prod
     runs-on: self-hosted
     steps:
       - name: Checkout
